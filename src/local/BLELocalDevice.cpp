@@ -41,11 +41,13 @@ BLELocalDevice::~BLELocalDevice()
 
 int BLELocalDevice::begin()
 {
-#if defined(ARDUINO_SAMD_MKRWIFI1010) || defined(ARDUINO_AVR_UNO_WIFI_REV2) || defined(ARDUINO_SAMD_NANO_33_IOT)
+#if defined(ARDUINO_SAMD_MKRWIFI1010) || defined(ARDUINO_AVR_UNO_WIFI_REV2) || defined(ARDUINO_SAMD_NANO_33_IOT) || defined(ARDUINO_METRO_M4_AIRLIFT_LITE)
   // reset the NINA in BLE mode
   pinMode(SPIWIFI_SS, OUTPUT);
   pinMode(NINA_RESETN, OUTPUT);
-  
+  pinMode(NINA_GPIO0, OUTPUT);
+  digitalWrite(NINA_GPIO0, HIGH);
+
   digitalWrite(SPIWIFI_SS, LOW);
 #endif
 
@@ -54,7 +56,7 @@ int BLELocalDevice::begin()
   delay(100);
   digitalWrite(NINA_RESETN, LOW);
   delay(750);
-#elif defined(ARDUINO_SAMD_NANO_33_IOT)
+#elif defined(ARDUINO_SAMD_NANO_33_IOT) || defined(ARDUINO_METRO_M4_AIRLIFT_LITE)
   // inverted reset
   digitalWrite(NINA_RESETN, LOW);
   delay(100);
@@ -67,7 +69,7 @@ int BLELocalDevice::begin()
 #endif
 
 
-#ifdef ARDUINO_AVR_UNO_WIFI_REV2
+#if defined(ARDUINO_AVR_UNO_WIFI_REV2) || defined(ARDUINO_METRO_M4_AIRLIFT_LITE)
   // set SS HIGH
   digitalWrite(SPIWIFI_SS, HIGH);
 
@@ -84,6 +86,7 @@ int BLELocalDevice::begin()
     return 0;
   }
 
+  HCI.debug(Serial);
   delay(100);
 
   if (HCI.reset() != 0) {
@@ -130,7 +133,7 @@ void BLELocalDevice::end()
 #if defined(ARDUINO_SAMD_MKRWIFI1010) || defined(ARDUINO_AVR_UNO_WIFI_REV2)
   // disable the NINA
   digitalWrite(NINA_RESETN, HIGH);
-#elif defined(ARDUINO_SAMD_NANO_33_IOT)
+#elif defined(ARDUINO_SAMD_NANO_33_IOT) || defined(ARDUINO_METRO_M4_AIRLIFT_LITE)
   // disable the NINA
   digitalWrite(NINA_RESETN, LOW);
 #elif defined(ARDUINO_PORTENTA_H7_M4) || defined(ARDUINO_PORTENTA_H7_M7)
