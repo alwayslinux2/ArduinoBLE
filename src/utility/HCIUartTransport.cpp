@@ -84,7 +84,7 @@ int HCIUartTransportClass::read()
 
 size_t HCIUartTransportClass::write(const uint8_t* data, size_t length)
 {
-#if defined(ARDUINO_AVR_UNO_WIFI_REV2) || defined(ARDUINO_METRO_M4_AIRLIFT_LITE)
+#if defined(ARDUINO_AVR_UNO_WIFI_REV2) || defined(ADAFRUIT_METRO_M4_AIRLIFT_LITE)
   // wait while the CTS pin is low
   while (digitalRead(NINA_CTS) == HIGH);
 #endif
@@ -98,7 +98,7 @@ size_t HCIUartTransportClass::write(const uint8_t* data, size_t length)
 
 #if defined(ARDUINO_AVR_UNO_WIFI_REV2) || defined(ARDUINO_NANO_RP2040_CONNECT)
 HCIUartTransportClass HCIUartTransport(SerialHCI, 119600);
-#elif defined(ADAFRUIT_ITSYBITSY_M4_EXPRESS) || defined(ARDUINO_METRO_M4_AIRLIFT_LITE)
+#elif defined(ADAFRUIT_ITSYBITSY_M4_EXPRESS) || defined(ADAFRUIT_METRO_M4_AIRLIFT_LITE)
 HCIUartTransportClass HCIUartTransport(SerialHCI, 115200);
 #else
 HCIUartTransportClass HCIUartTransport(SerialHCI, 912600);
