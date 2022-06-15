@@ -465,7 +465,7 @@ int HCIClass::saveNewAddress(uint8_t addressType, uint8_t* address, uint8_t* pee
     _storeIRK(address, peerIrk);
   }
   // Again... this should work 
-  // leAddResolvingAddress(addressType, address, peerIrk, localIrk);
+  return leAddResolvingAddress(addressType, address, peerIrk, localIrk);
 }
 int HCIClass::leAddResolvingAddress(uint8_t addressType, uint8_t* peerAddress, uint8_t* peerIrk, uint8_t* localIrk){
   leStopResolvingAddresses();
@@ -492,7 +492,7 @@ int HCIClass::leAddResolvingAddress(uint8_t addressType, uint8_t* peerAddress, u
   btct.printBytes(addDevice.localIRK,16);
   sendCommand(OGF_LE_CTL << 10 | 0x27, sizeof(addDevice), &addDevice); 
 
-  leStartResolvingAddresses();
+  return leStartResolvingAddresses();
 }
 int HCIClass::leStopResolvingAddresses(){
     uint8_t enable = 0;
@@ -536,11 +536,11 @@ int HCIClass::writeLK(uint8_t peerAddress[], uint8_t LK[]){
   storeLK.nKeys = 1;
   memcpy(storeLK.BD_ADDR, peerAddress, 6);
   for(int i=0; i<16; i++) storeLK.LTK[15-i] = LK[i];
-  HCI.sendCommand(OGF_HOST_CTL << 10 | 0x11, sizeof(storeLK), &storeLK);
+  return HCI.sendCommand(OGF_HOST_CTL << 10 | 0x11, sizeof(storeLK), &storeLK);
 }
 int HCIClass::readStoredLKs(){
   uint8_t BD_ADDR[6];
-  readStoredLK(BD_ADDR, 1);
+  return readStoredLK(BD_ADDR, 1);
 }
 int HCIClass::readStoredLK(uint8_t BD_ADDR[], uint8_t read_all ){
   struct __attribute__ ((packed)) Request {
