@@ -127,7 +127,7 @@ void HCIClass::poll()
 
 void HCIClass::poll(unsigned long timeout)
 {
-#if defined(ARDUINO_AVR_UNO_WIFI_REV2) || defined(ADAFRUIT_METRO_M4_AIRLIFT_LITE)
+#if defined(ARDUINO_AVR_UNO_WIFI_REV2) || defined(HAS_ADAFRUIT_AIRLIFT) || defined(ADAFRUIT_METRO_M4_AIRLIFT_LITE)
   digitalWrite(NINA_RTS, LOW);
 #endif
 
@@ -152,7 +152,7 @@ void HCIClass::poll(unsigned long timeout)
         if (_debug) {
           dumpPkt("HCI ACLDATA RX <- ", _recvIndex, _recvBuffer);
         }
-#if defined(ARDUINO_AVR_UNO_WIFI_REV2) || defined(ADAFRUIT_METRO_M4_AIRLIFT_LITE)
+#if defined(ARDUINO_AVR_UNO_WIFI_REV2) || defined(HAS_ADAFRUIT_AIRLIFT) || defined(ADAFRUIT_METRO_M4_AIRLIFT_LITE)
         digitalWrite(NINA_RTS, HIGH);
 #endif
         int pktLen = _recvIndex - 1;
@@ -160,7 +160,7 @@ void HCIClass::poll(unsigned long timeout)
 
         handleAclDataPkt(pktLen, &_recvBuffer[1]);
 
-#if defined(ARDUINO_AVR_UNO_WIFI_REV2) || defined(ADAFRUIT_METRO_M4_AIRLIFT_LITE)
+#if defined(ARDUINO_AVR_UNO_WIFI_REV2) || defined(HAS_ADAFRUIT_AIRLIFT) || defined(ADAFRUIT_METRO_M4_AIRLIFT_LITE)
         digitalWrite(NINA_RTS, LOW);  
 #endif
       }
@@ -169,7 +169,7 @@ void HCIClass::poll(unsigned long timeout)
         if (_debug) {
           dumpPkt("HCI EVENT RX <- ", _recvIndex, _recvBuffer);
         }
-#if defined(ARDUINO_AVR_UNO_WIFI_REV2) || defined(ADAFRUIT_METRO_M4_AIRLIFT_LITE)
+#if defined(ARDUINO_AVR_UNO_WIFI_REV2) || defined(HAS_ADAFRUIT_AIRLIFT) || defined(ADAFRUIT_METRO_M4_AIRLIFT_LITE)
         digitalWrite(NINA_RTS, HIGH);
 #endif
         // received full event
@@ -178,7 +178,7 @@ void HCIClass::poll(unsigned long timeout)
 
         handleEventPkt(pktLen, &_recvBuffer[1]);
 
-#if defined(ARDUINO_AVR_UNO_WIFI_REV2) || defined(ADAFRUIT_METRO_M4_AIRLIFT_LITE)
+#if defined(ARDUINO_AVR_UNO_WIFI_REV2) || defined(HAS_ADAFRUIT_AIRLIFT) || defined(ADAFRUIT_METRO_M4_AIRLIFT_LITE)
         digitalWrite(NINA_RTS, LOW);
 #endif
       }
@@ -191,7 +191,7 @@ void HCIClass::poll(unsigned long timeout)
     }
   }
 
-#if defined(ARDUINO_AVR_UNO_WIFI_REV2) || defined(ADAFRUIT_METRO_M4_AIRLIFT_LITE)
+#if defined(ARDUINO_AVR_UNO_WIFI_REV2) || defined(HAS_ADAFRUIT_AIRLIFT) || defined(ADAFRUIT_METRO_M4_AIRLIFT_LITE)
   digitalWrite(NINA_RTS, HIGH);
 #endif
 }
