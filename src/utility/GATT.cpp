@@ -70,19 +70,19 @@ void GATTClass::begin()
 
 void GATTClass::end()
 {
-  if (_genericAccessService->release() == 0)
+  if (_genericAccessService && _genericAccessService->release() == 0)
     delete(_genericAccessService);
   
-  if (_deviceNameCharacteristic->release() == 0)
+  if (_deviceNameCharacteristic && _deviceNameCharacteristic->release() == 0)
     delete(_deviceNameCharacteristic);
   
-  if (_appearanceCharacteristic->release() == 0)
+  if (_appearanceCharacteristic && _appearanceCharacteristic->release() == 0)
     delete(_appearanceCharacteristic);
   
-  if (_genericAttributeService->release() == 0)
+  if (_genericAttributeService && _genericAttributeService->release() == 0)
     delete(_genericAttributeService);
   
-  if (_servicesChangedCharacteristic->release() == 0)
+  if (_servicesChangedCharacteristic&& _servicesChangedCharacteristic->release() == 0)
     delete(_servicesChangedCharacteristic);
   
   clearAttributes();

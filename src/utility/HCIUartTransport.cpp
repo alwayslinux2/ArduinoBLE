@@ -86,7 +86,11 @@ size_t HCIUartTransportClass::write(const uint8_t* data, size_t length)
 {
 #if defined(ARDUINO_AVR_UNO_WIFI_REV2) || defined(HAS_ADAFRUIT_AIRLIFT) || defined(ADAFRUIT_METRO_M4_AIRLIFT_LITE)
   // wait while the CTS pin is low
-  while (digitalRead(NINA_CTS) == HIGH);
+  for (unsigned long start = millis(); digitalRead(NINA_CTS) == HIGH && millis() < (start + 1000);) {
+    
+  }
+  if (digitalRead(NINA_CTS) == HIGH)
+    return -1; // bad!
 #endif
 
   size_t result = _uart->write(data, length);
